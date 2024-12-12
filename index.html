@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Countdown</title>
+  <style>
+    body {
+      background: #004e92;
+      color: #ffffff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #countdown {
+      font-size: 4rem;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+    }
+
+    .controls {
+      margin-top: 20px;
+    }
+
+    button {
+      background: #0ff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #000;
+      margin: 5px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #00aaff;
+      transition: 0.50s ease-in-out;
+    transform: scale(1.05);
+    }
+    input {
+      background: #ffffff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      font-size: 1rem;
+ 
+      margin-right: 30px;
+      border-radius: 5px;
+   
+    }
+    
+    
+    input:hover{
+      background: #ffffff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      font-size: 1rem;
+      box-shadow:1.4px 1.4px 30px #2794ee;
+      margin-right: 30px;
+      border-radius: 5px;
+      transition: 0.50s ease-in-out;
+      transform: scale(1.05);
+    }
+    footer{
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>start Countdown</h1>
+  <div id="countdown">00:00:00</div>
+
+  <div class="controls">
+    <input type="number" id="minutes" placeholder="Minutes" min="0" />
+    <button onclick="startCountdown()">Start</button>
+    <button onclick="resetCountdown()">Reset</button>
+  </div>
+ <footer>
+  <h3>made by dhanappa</h3>
+ </footer>
+  <script>
+    let countdownInterval;
+
+    function startCountdown() {
+      const minutes = parseInt(document.getElementById('minutes').value) || 0;
+      const endTime = Date.now() + minutes * 60000;
+
+      clearInterval(countdownInterval);
+
+      countdownInterval = setInterval(() => {
+        const now = Date.now();
+        const timeLeft = Math.max(0, endTime - now);
+
+        const hrs = String(Math.floor(timeLeft / (1000 * 60 * 60))).padStart(2, '0');
+        const mins = String(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+        const secs = String(Math.floor((timeLeft % (1000 * 60)) / 1000)).padStart(2, '0');
+
+        document.getElementById('countdown').textContent = `${hrs}:${mins}:${secs}`;
+
+        if (timeLeft === 0) clearInterval(countdownInterval);
+      }, 1000);
+    }
+
+    function resetCountdown() {
+      clearInterval(countdownInterval);
+      document.getElementById('countdown').textContent = '00:00:00';
+      document.getElementById('minutes').value = '';
+    }
+  </script>
+</body>
+</html>
